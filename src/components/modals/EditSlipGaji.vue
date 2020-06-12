@@ -299,6 +299,7 @@ export default {
     getProfilKeluarga () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetProfil',
@@ -323,6 +324,7 @@ export default {
       if (parseInt(this.dataSlip.jenis) === 1 && this.dataSlip.asn !== 'Pilih ASN') {
         axios({
           url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+          nocache: new Date().getTime(),
           method: 'GET',
           params: {
             onGet: 'GetGaji',
@@ -409,6 +411,7 @@ export default {
     getDataTunjangan () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetTunjangan',
@@ -423,6 +426,7 @@ export default {
     getDataPotongan () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetPotongan',
@@ -437,6 +441,7 @@ export default {
     getDataPotonganTunjangan () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetSlipGaji',
@@ -460,6 +465,7 @@ export default {
     getTunjangan () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetTunjangan'
@@ -471,6 +477,7 @@ export default {
     getPotongan () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetPotongan'
@@ -482,6 +489,7 @@ export default {
     getJenisSlip () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetJenisSlip'

@@ -209,6 +209,7 @@ export default {
     getPegawai () {
       axios({
         url: 'https://server.cuti.bkpsdmsitubondo.id/',
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetPegawaiAdmin',
@@ -221,6 +222,7 @@ export default {
     getSlipData () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+        nocache: new Date().getTime(),
         method: 'GET',
         params: {
           onGet: 'GetSlipGaji'

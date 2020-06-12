@@ -89,6 +89,7 @@ export default {
       if (this.login.username !== '' && this.login.password !== '') {
         Axios({
           url: `${this.$store.state.BASED_URL}siska_server/index.php`,
+          nocache: new Date().getTime(),
           method: 'GET',
           params: {
             onGet: 'Login',
