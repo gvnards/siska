@@ -1,5 +1,5 @@
 <template>
-  <div id="Content">
+  <div id="Content" :class="$store.state.shrinkMainMenu ? '':'small-menu'">
     <ContentHeader />
     <slot></slot>
   </div>
@@ -8,6 +8,9 @@
 <style lang="less" scoped>
 #Content {
   min-width: calc(100vw - 240px);
+  &.small-menu {
+    min-width: calc(100vw - 80px);
+  }
   min-height: 100vh;
   max-height: 100vh;
   overflow: auto;

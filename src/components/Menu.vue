@@ -1,5 +1,8 @@
 <template>
-  <div id="menu-wrapper">
+  <div id="menu-wrapper" :class="$store.state.shrinkMainMenu ? '':'small-menu'">
+    <div class="shrink" @click="$store.commit('SET_SHRINK_MAIN_MENU', !$store.state.shrinkMainMenu)">
+      <img src="../assets/resize.png" alt="resize" srcset="">
+    </div>
     <div class="head-menu">
       <img src="../assets/logo.png" alt="Logo Siska">
       <p>Layanan<br><span>SISKA</span></p>
@@ -19,7 +22,7 @@
       <div class="main-menu">
         <div class="menu-item" :class="item.text === $store.state.menu.active ? 'active' : ''" v-for="(item, index) in menu" :key="index" @click="pickMenu(item)">
           <img :src="require(`./../assets/${item.img}`)" alt="">
-          <span>{{ item.text }}</span>
+          <span v-if="$store.state.shrinkMainMenu">{{ item.text }}</span>
         </div>
       </div>
     </div>
@@ -28,9 +31,58 @@
 
 <style lang="less" scoped>
 #menu-wrapper {
+  position: relative;
   min-height: 100vh;
   min-width: 240px;
   max-width: 240px;
+  transition: all 0.4s;
+  .shrink {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    width: 20px;
+    height: 16px;
+    z-index: 2;
+    background-color: white;
+    text-align: center;
+    img {
+      width: 14px;
+      margin-top: -10px;
+    }
+  }
+  &.small-menu {
+    min-width: 80px;
+    max-width: 80px;
+    overflow: hidden;
+    .head-menu {
+      position: relative;
+      img {
+        position: absolute;
+        width: 54px;
+        height: 54px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      p {
+        display: none;
+        visibility: hidden;
+      }
+    }
+    .body-menu {
+      position: relative;
+      .account-menu {
+        img {
+          display: none;
+          visibility: hidden;
+        }
+      }
+      .div-menu {
+        p {
+          font-size: 9px;
+        }
+      }
+    }
+  }
   .head-menu {
     cursor: pointer;
     color: white;

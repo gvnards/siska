@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    shrinkMainMenu: false,
     pegawai: [],
     menu: {
       active: 'Dasbor'
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     BASED_URL: 'http://127.0.0.1/' // https://siska.bkpsdmsitubondo.id/ or http://127.0.0.1/
   },
   mutations: {
+    SET_SHRINK_MAIN_MENU (state, value) {
+      state.shrinkMainMenu = value
+    },
     SET_MENU_ACTIVE (state, value) {
       state.menu.active = value
     },
