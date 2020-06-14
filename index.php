@@ -27,6 +27,9 @@ foreach (glob('Tunjangan/*.php') as $filename) {
 foreach (glob('SlipGajiExport/*.php') as $filename) {
   include_once $filename;
 }
+foreach (glob('ExcelToDB/*.php') as $filename) {
+  include_once $filename;
+}
 
 if (isset($_GET['onGet'])) {
   $action = $_GET['onGet'];
@@ -106,6 +109,9 @@ if (isset($_GET['onGet'])) {
       break;
     case "EditTunjangan":
       echo (new UpdateTunjangan)->EditTunjangan();
+      break;
+    case "ImportDBExcelGajiPokok":
+      echo (new ImportExcel)->GajiPokok();
       break;
   }
 }
