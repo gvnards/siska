@@ -42,6 +42,14 @@ export default {
       file: ''
     }
   },
+  props: {
+    onModal: Boolean
+  },
+  watch: {
+    onModal (val) {
+      this.file = ''
+    }
+  },
   methods: {
     submitFile () {
       let formData = new FormData()

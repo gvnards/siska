@@ -9,12 +9,12 @@
     <EditPotonganModal :onModal="modal.show" :dataEdit="dataEdit" @onShowPopup="popup.isSuccess = $event; getData()" />
     <EditProfilPegawaiModal v-if="menu.active === 'Profil Pegawai'" :onModal="modal.show" :dataEdit="dataEdit" @onShowPopup="popup.isSuccess = $event; getPegawai()" />
     <AddTunjanganModal :onModal="modal.show" @onShowPopup="popup.isSuccess = $event; getData()" />
-    <ImportModal @onShowPopup="popup.isSuccess = $event; getData()" />
+    <ImportModal :onModal="modal.show" @onShowPopup="popup.isSuccess = $event; getData()" />
     <div class="header-title">
       <p>{{ $store.state.menu.active }} <span>Pengaturan Data</span></p>
       <button :disabled="menu.active === 'Profil Pegawai'" @click="modal.show = true" class="btn btn-sm btn-primary btn-add-data" :style="menu.active === 'Profil Pegawai' ? 'cursor: not-allowed !important;':''" data-toggle="modal" :data-target="`#modalAdd${menu.active.split(' ').join('')}`">Tambah</button>
       <!-- Import Button -->
-      <button v-if="menu.active === 'Gaji Pegawai'" class="btn btn-sm btn-success btn-add-data" data-toggle="modal" :data-target="`#modalImport`">Impor dari Excel</button>
+      <button v-if="menu.active === 'Gaji Pegawai'" class="btn btn-sm btn-success btn-add-data" data-toggle="modal" :data-target="`#modalImport`" @click="modal.show = true">Impor dari Excel</button>
       <!-- End Import Button -->
     </div>
     <div class="mTabs">
