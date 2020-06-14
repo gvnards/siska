@@ -21,7 +21,7 @@
               </select>
             </div>
             <div class="form-group">
-              <input v-model="item.potongan" :step="item.jenis === '%' ? '0.01': '1'" type="number" class="form-control" placeholder="Masukkan Potongan">
+              <input v-model="item.potongan" step="0.01" type="number" class="form-control" placeholder="Masukkan Potongan">
             </div>
             <img @click="delData(index)" src="./../../assets/remove_red.png" alt="" srcset="">
           </div>

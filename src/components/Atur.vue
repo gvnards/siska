@@ -9,6 +9,7 @@
     <EditPotonganModal :onModal="modal.show" :dataEdit="dataEdit" @onShowPopup="popup.isSuccess = $event; getData()" />
     <EditProfilPegawaiModal v-if="menu.active === 'Profil Pegawai'" :onModal="modal.show" :dataEdit="dataEdit" @onShowPopup="popup.isSuccess = $event; getPegawai()" />
     <AddTunjanganModal :onModal="modal.show" @onShowPopup="popup.isSuccess = $event; getData()" />
+    <EditTunjanganModal :onModal="modal.show" :dataEdit="dataEdit" @onShowPopup="popup.isSuccess = $event; getData()" />
     <ImportModal :onModal="modal.show" @onShowPopup="popup.isSuccess = $event; getData()" />
     <div class="header-title">
       <p>{{ $store.state.menu.active }} <span>Pengaturan Data</span></p>
@@ -185,6 +186,7 @@ import DeleteDataPopup from '@/components/modals/popups/DeleteDataPopup'
 import EditDataPopup from '@/components/modals/popups/EditDataPopup'
 import EditProfilPegawaiModal from '@/components/modals/EditProfilPegawai'
 import AddTunjanganModal from '@/components/modals/AddTunjangan'
+import EditTunjanganModal from '@/components/modals/EditTunjangan'
 import ImportModal from '@/components/modals/Import'
 export default {
   components: {
@@ -197,6 +199,7 @@ export default {
     EditDataPopup,
     EditProfilPegawaiModal,
     AddTunjanganModal,
+    EditTunjanganModal,
     ImportModal
   },
   watch: {
@@ -251,6 +254,13 @@ export default {
           nama: data.nama,
           jenis: data.jenis,
           potongan: data.potongan
+        }
+      } else if (this.menu.active === 'Tunjangan') {
+        this.dataEdit = {
+          id: data.id,
+          nama: data.nama,
+          jenis: data.jenis,
+          tunjangan: data.tunjangan
         }
       } else if (this.menu.active === 'Profil Pegawai') {
         this.dataEdit = data
@@ -326,9 +336,10 @@ export default {
       if (!value) return ''
       let temp = ''
       let count = 0
-      for (let i = value.toString().length - 1; i >= 0; i--) {
+      let tempValue = value.toString().split('.')
+      for (let i = tempValue[0].length - 1; i >= 0; i--) {
         count++
-        temp = `${value.toString()[i]}${temp}`
+        temp = `${tempValue[0][i]}${temp}`
         if (count % 3 === 0) {
           temp = `.${temp}`
           count = 0
@@ -336,6 +347,9 @@ export default {
       }
       if (temp[0] === '.') {
         temp = temp.slice(1)
+      }
+      if (tempValue[1] !== undefined) {
+        temp = `${temp},${tempValue[1]}`
       }
       return temp
     }

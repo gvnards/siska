@@ -354,7 +354,7 @@ export default {
               total += parseInt(el.potongan.potongan)
               // tempGajiPokok -= parseInt(el.potongan.potongan)
             } else if (el.potongan.jenis === '%') {
-              let persen = Math.round((this.dataSlip.gajiPokok * parseFloat(el.potongan.potongan)) / 100)
+              let persen = (this.dataSlip.gajiPokok * parseFloat(el.potongan.potongan)) / 100
               total += persen
             }
           }
@@ -378,7 +378,7 @@ export default {
               total += parseInt(el.tunjangan.tunjangan)
               // tempGajiPokok -= parseInt(el.tunjangan.tunjangan)
             } else if (el.tunjangan.jenis === '%') {
-              let persen = Math.round((this.dataSlip.gajiPokok * parseFloat(el.tunjangan.tunjangan)) / 100)
+              let persen = (this.dataSlip.gajiPokok * parseFloat(el.tunjangan.tunjangan)) / 100
               total += persen
             }
           }

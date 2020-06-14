@@ -1,34 +1,33 @@
 <template>
   <!-- Modal -->
-  <div class="modal fade" id="modalAddPotongan" tabindex="-1" role="dialog" aria-labelledby="modalAddPotonganLabel" aria-hidden="true">
+  <div class="modal fade" id="modalEditTunjangan" tabindex="-1" role="dialog" aria-labelledby="modalEditTunjanganLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalAddPotonganLabel">Tambah Data Potongan</h5>
+          <h5 class="modal-title" id="modalEditTunjanganLabel">Edit Data Tunjangan</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="item" v-for="(item, index) in dataPotongan" :key="index">
+          <div class="item" v-for="(item, index) in dataTunjangan" :key="index">
             <div class="form-group">
-              <input v-model="item.nama" type="text" class="form-control" placeholder="Nama Potongan">
+              <input v-model="item.nama" type="text" class="form-control" placeholder="Nama Tunjangan">
             </div>
             <div class="form-group">
               <select class="form-control" v-model="item.jenis">
-                <option disabled selected>Jenis Potongan</option>
+                <option disabled selected>Jenis Tunjangan</option>
                 <option v-for="(item, index) in ['%', 'Rp']" :key="index">{{ item }}</option>
               </select>
             </div>
             <div class="form-group">
-              <input v-model="item.potongan" step="0.01" type="number" class="form-control" placeholder="Masukkan Potongan">
+              <input v-model="item.tunjangan" step="0.01" type="number" class="form-control" placeholder="Masukkan Tunjangan">
             </div>
             <img @click="delData(index)" src="./../../assets/remove_red.png" alt="" srcset="">
           </div>
-          <div class="btn btn-sm btn-success btn-block" style="font-size: 20px; padding: 2px; height: 18px; overflow: hidden;"><p style="margin-top: -8px;" @click="dataPotongan.push({nama: '', jenis: 'Jenis Potongan', potongan: Number})">+</p></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalAddPotongan">Tutup</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalEditTunjangan">Tutup</button>
           <button type="button" class="btn btn-primary" @click="addData()">Simpan</button>
         </div>
       </div>
@@ -68,38 +67,46 @@ import $ from 'jquery'
 import axios from 'axios'
 export default {
   props: {
-    onModal: Boolean
+    onModal: Boolean,
+    dataEdit: Object
   },
   watch: {
     onModal (val) {
-      this.dataPotongan = []
+      this.dataTunjangan = [
+        {
+          id: this.dataEdit.id,
+          nama: this.dataEdit.nama,
+          jenis: this.dataEdit.jenis,
+          tunjangan: this.dataEdit.tunjangan
+        }
+      ]
     }
   },
   data () {
     return {
-      dataPotongan: []
+      dataTunjangan: []
     }
   },
   methods: {
     delData (index) {
-      this.dataPotongan.splice(index, 1)
+      this.dataTunjangan.splice(index, 1)
     },
     addData () {
       axios({
         url: `${this.$store.state.BASED_URL}siska_server/index.php`,
         method: 'POST',
         data: {
-          onPost: 'InsertPotongan',
-          potongans: this.dataPotongan
+          onPost: 'EditTunjangan',
+          tunjangans: this.dataTunjangan
         }
       }).then(res => {
-        $('#closeModalAddPotongan').trigger('click')
+        $('#closeModalEditTunjangan').trigger('click')
         this.$emit('onShowPopup', res.data.callback)
-        $('#showModalAddDataPopup').trigger('click')
+        $('#showModalEditDataPopup').trigger('click')
       }).catch(_ => {
-        $('#closeModalAddPotongan').trigger('click')
+        $('#closeModalEditTunjangan').trigger('click')
         this.$emit('onShowPopup', false)
-        $('#showModalAddDataPopup').trigger('click')
+        $('#showModalEditDataPopup').trigger('click')
       })
     }
   }
