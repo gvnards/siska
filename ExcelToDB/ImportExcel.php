@@ -4,7 +4,7 @@ include_once 'excel_reader.php';
 class ImportExcel extends Conn {
   public function GajiPokok () {
     // upload file xls
-    $target = $_SERVER['DOCUMENT_ROOT']."\/siska_server\/temp\/".basename($_FILES['file']['name']);
+    $target = $_SERVER['DOCUMENT_ROOT']."/siska_server/temp/".basename($_FILES['file']['name']);
     move_uploaded_file($_FILES['file']['tmp_name'], $target);
     // beri permisi agar file xls dapat di baca
     chmod($target, 0777);
