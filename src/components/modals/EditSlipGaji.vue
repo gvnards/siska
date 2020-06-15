@@ -287,7 +287,7 @@ export default {
     },
     kalkulasiTunjanganSuamiIstri () {
       if (parseInt(this.dataKeluarga.status_perkawinan) === 1 && parseInt(this.dataKeluarga.is_greater_than) === 0) {
-        return this.dataSlip.gajiPokok * 5 / 100
+        return this.dataSlip.gajiPokok * 10 / 100
       }
       return 0
     },
