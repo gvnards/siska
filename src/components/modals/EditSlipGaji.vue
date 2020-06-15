@@ -60,6 +60,10 @@
                   </div>
                 </div>
               </div>
+              <div class="form-group">
+                <label for="tunjanganBeras">Tunjangan Beras :</label>
+                <input type="text" class="form-control" disabled id="tunjanganBeras" :placeholder="kalkulasiTunjanganBeras">
+              </div>
             </div>
             <div class="each-item-p">
               <label>Tunjangan :</label>
@@ -204,7 +208,7 @@ export default {
           this.tempPotonganLain = val
         }
       }
-      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTotalTunjangan)) - parseInt(this.kalkulasiTotalPotongan)
+      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
     },
     'dataSlip.asn' (val) {
       if (val !== 'Pilih ASN') {
@@ -293,6 +297,14 @@ export default {
     },
     kalkulasiTunjanganAnak () {
       return (this.dataSlip.gajiPokok * 2 / 100) * this.dataKeluarga.jumlah_anak
+    },
+    kalkulasiTunjanganBeras () {
+      let temp = 72420
+      if (parseInt(this.dataKeluarga.status_perkawinan) === 1 && parseInt(this.dataKeluarga.is_greater_than) === 0) {
+        temp += 72420
+      }
+      temp += (72420 & this.dataKeluarga.jumlah_anak)
+      return temp
     }
   },
   methods: {
@@ -338,7 +350,7 @@ export default {
           this.dataSlip.gajiPokok = 0
           this.dataSlip.idGolongan = res.data[0].id
           this.dataSlip.gajiPokok = res.data[0].gaji
-          this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTotalTunjangan)) - parseInt(this.kalkulasiTotalPotongan)
+          this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
           this.kalkulasiTotTunjangan(this.dataSlip.tunjangan)
           this.kalkulasiTotPotongan(this.dataSlip.potongan)
         })
@@ -366,7 +378,7 @@ export default {
           this.kalkulasiTotalPotongan += parseInt(this.dataSlip.potonganLainLain)
         }
       }
-      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTotalTunjangan)) - parseInt(this.kalkulasiTotalPotongan)
+      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
     },
     kalkulasiTotTunjangan (totalTunjangan) {
       let total = 0
@@ -385,7 +397,7 @@ export default {
         })
       }
       this.kalkulasiTotalTunjangan = total
-      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTotalTunjangan)) - parseInt(this.kalkulasiTotalPotongan)
+      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
     },
     delData (index, mode) {
       if (mode === 'tunjangan') {
@@ -533,6 +545,7 @@ export default {
           tunjanganJabatan: this.kalkulasiTunjanganJabatan,
           tunjanganSuamiIstri: this.kalkulasiTunjanganSuamiIstri,
           tunjanganAnak: this.kalkulasiTunjanganAnak,
+          tunjanganBeras: this.kalkulasiTunjanganBeras,
           idPotongan: dataSlip.potongan,
           idPotonganLainLain: dataSlip.potonganLainLain,
           idTunjangan: dataSlip.tunjangan,
