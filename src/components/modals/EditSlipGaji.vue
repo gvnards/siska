@@ -64,6 +64,17 @@
                 <label for="tunjanganBeras">Tunjangan Beras :</label>
                 <input type="text" class="form-control" disabled id="tunjanganBeras" :placeholder="kalkulasiTunjanganBeras">
               </div>
+              <label>Tunjangan Jaminan :</label>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="form-group" style="max-width: 50%;">
+                  <label for="tunjanganJKK">Kecelakaan Kerja :</label>
+                  <input type="text" class="form-control" disabled id="tunjanganJKK" :placeholder="kalkulasiJKK">
+                </div>
+                <div class="form-group" style="max-width: 50%; align-self: flex-end;">
+                  <label for="tunjanganJKM">Kematian :</label>
+                  <input type="text" class="form-control" disabled id="tunjanganJKM" :placeholder="kalkulasiJKM">
+                </div>
+              </div>
             </div>
             <div class="each-item-p">
               <label>Tunjangan :</label>
@@ -80,6 +91,19 @@
               <div class="form-group">
                 <label for="totalTunjangan">Total Tunjangan :</label>
                 <input type="text" class="form-control" disabled id="totalTunjangan" :placeholder="kalkulasiTotalTunjangan">
+              </div>
+            </div>
+            <div class="each-item">
+              <label>Potongan Jaminan :</label>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="form-group" style="max-width: 50%;">
+                  <label for="potonganJKK">Kecelakaan Kerja :</label>
+                  <input type="text" class="form-control" disabled id="potonganJKK" :placeholder="kalkulasiJKK">
+                </div>
+                <div class="form-group" style="max-width: 50%; align-self: flex-end;">
+                  <label for="potonganJKM">Kematian :</label>
+                  <input type="text" class="form-control" disabled id="potonganJKM" :placeholder="kalkulasiJKM">
+                </div>
               </div>
             </div>
             <div class="each-item-p">
@@ -109,8 +133,8 @@
               </div>
               <div class="each-item">
                 <div class="form-group">
-                  <label for="totalPotongan">Penerimaan :</label>
-                  <input type="text" class="form-control" disabled id="totalPotongan" :placeholder="dataSlip.total">
+                  <label for="penerimaan">Penerimaan :</label>
+                  <input type="text" class="form-control" disabled id="penerimaan" :placeholder="dataSlip.total">
                 </div>
               </div>
             </div>
@@ -208,7 +232,7 @@ export default {
           this.tempPotonganLain = val
         }
       }
-      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+      this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
     },
     'dataSlip.asn' (val) {
       if (val !== 'Pilih ASN') {
@@ -305,6 +329,12 @@ export default {
       }
       temp += (72420 & this.dataKeluarga.jumlah_anak)
       return temp
+    },
+    kalkulasiJKK () {
+      return Math.ceil((this.dataSlip.gajiPokok * 0.24) / 100)
+    },
+    kalkulasiJKM () {
+      return Math.ceil((this.dataSlip.gajiPokok * 0.72) / 100)
     }
   },
   methods: {
@@ -350,7 +380,7 @@ export default {
           this.dataSlip.gajiPokok = 0
           this.dataSlip.idGolongan = res.data[0].id
           this.dataSlip.gajiPokok = res.data[0].gaji
-          this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+          this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
           this.kalkulasiTotTunjangan(this.dataSlip.tunjangan)
           this.kalkulasiTotPotongan(this.dataSlip.potongan)
         })
@@ -372,13 +402,13 @@ export default {
           }
         })
       }
-      this.kalkulasiTotalPotongan = total
+      this.kalkulasiTotalPotongan = total + parseInt(this.kalkulasiJKK) + parseInt(this.kalkulasiJKM)
       if (this.dataSlip.isPotonganLainLain) {
         if (!isNaN(parseInt(this.dataSlip.potonganLainLain))) {
           this.kalkulasiTotalPotongan += parseInt(this.dataSlip.potonganLainLain)
         }
       }
-      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+      this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
     },
     kalkulasiTotTunjangan (totalTunjangan) {
       let total = 0
@@ -396,8 +426,8 @@ export default {
           }
         })
       }
-      this.kalkulasiTotalTunjangan = total
-      this.dataSlip.total = (parseInt(this.dataSlip.gajiPokok) + parseInt(this.kalkulasiTunjanganJabatan) + parseInt(this.kalkulasiTunjanganSuamiIstri) + parseInt(this.kalkulasiTunjanganAnak) + parseInt(this.kalkulasiTunjanganBeras) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+      this.kalkulasiTotalTunjangan = total + parseFloat(this.kalkulasiTunjanganJabatan) + parseFloat(this.kalkulasiTunjanganSuamiIstri) + parseFloat(this.kalkulasiTunjanganAnak) + parseFloat(this.kalkulasiTunjanganBeras) + parseInt(this.kalkulasiJKK) + parseInt(this.kalkulasiJKM)
+      this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
     },
     delData (index, mode) {
       if (mode === 'tunjangan') {
@@ -546,6 +576,8 @@ export default {
           tunjanganSuamiIstri: this.kalkulasiTunjanganSuamiIstri,
           tunjanganAnak: this.kalkulasiTunjanganAnak,
           tunjanganBeras: this.kalkulasiTunjanganBeras,
+          jkk: this.kalkulasiJKK,
+          jkm: this.kalkulasiJKM,
           idPotongan: dataSlip.potongan,
           idPotonganLainLain: dataSlip.potonganLainLain,
           idTunjangan: dataSlip.tunjangan,
