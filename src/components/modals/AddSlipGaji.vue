@@ -326,7 +326,7 @@ export default {
       if (parseInt(this.dataKeluarga.status_perkawinan) === 1 && parseInt(this.dataKeluarga.is_greater_than) === 0) {
         temp += 72420
       }
-      temp += (72420 & this.dataKeluarga.jumlah_anak)
+      temp += (72420 * this.dataKeluarga.jumlah_anak)
       return temp
     },
     kalkulasiJKK () {
