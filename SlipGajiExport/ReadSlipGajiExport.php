@@ -4,7 +4,7 @@ class ReadSlipGajiExport extends Conn {
     $id_slip = $_GET['idSlip'];
     $dbh = $this->connect();
 
-    $sth = $dbh->prepare("SELECT slip_gaji.nip, slip_gaji.nama, slip_gaji.tunjangan_jabatan, slip_gaji.tunjangan_suami_istri, slip_gaji.tunjangan_anak, slip_gaji.tunjangan_beras, slip_gaji.tanggal_slip, slip_gaji.total_gaji, slip_gaji.total_tunjangan, slip_gaji.total_potongan, potongan_lainlain.jenis AS nama_potongan_lainlain, potongan_lainlain.potongan AS potongan_lainlain, gaji_pokok.gaji AS gaji_pokok
+    $sth = $dbh->prepare("SELECT slip_gaji.nip, slip_gaji.nama, slip_gaji.tunjangan_jabatan, slip_gaji.tunjangan_suami_istri, slip_gaji.tunjangan_anak, slip_gaji.tunjangan_beras, slip_gaji.jkk, slip_gaji.jkm, slip_gaji.tanggal_slip, slip_gaji.total_gaji, slip_gaji.total_tunjangan, slip_gaji.total_potongan, potongan_lainlain.jenis AS nama_potongan_lainlain, potongan_lainlain.potongan AS potongan_lainlain, gaji_pokok.gaji AS gaji_pokok
     FROM slip_gaji, potongan_lainlain, gaji_pokok
     WHERE slip_gaji.id_potongan_lainlain=potongan_lainlain.id AND slip_gaji.golongan=gaji_pokok.id AND slip_gaji.id=?");
     $sth->execute([$id_slip]);
