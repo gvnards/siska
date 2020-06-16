@@ -12,6 +12,9 @@ class UpdateSlipGaji extends Conn {
     $tunjangan_beras = isset($_POST['tunjanganBeras']) ? $_POST['tunjanganBeras'] : json_decode(file_get_contents('php://input'))->tunjanganBeras;
     $jkk = isset($_POST['jkk']) ? $_POST['jkk'] : json_decode(file_get_contents('php://input'))->jkk;
     $jkm = isset($_POST['jkm']) ? $_POST['jkm'] : json_decode(file_get_contents('php://input'))->jkm;
+    $bpjs = isset($_POST['bpjs']) ? $_POST['bpjs'] : json_decode(file_get_contents('php://input'))->bpjs;
+    $iwp1 = isset($_POST['iwp1']) ? $_POST['iwp1'] : json_decode(file_get_contents('php://input'))->iwp1;
+    $iwp8 = isset($_POST['iwp8']) ? $_POST['iwp8'] : json_decode(file_get_contents('php://input'))->iwp8;
     $id_potongan = isset($_POST['idPotongan']) ? $_POST['idPotongan'] : json_decode(file_get_contents('php://input'))->idPotongan;
     $id_potongan_lainlain = isset($_POST['idPotonganLainLain']) ? $_POST['idPotonganLainLain'] : json_decode(file_get_contents('php://input'))->idPotonganLainLain;
     $id_tunjangan = isset($_POST['idTunjangan']) ? $_POST['idTunjangan'] : json_decode(file_get_contents('php://input'))->idTunjangan;
@@ -30,8 +33,8 @@ class UpdateSlipGaji extends Conn {
     }
 
     // update SLIP GAJI
-    $sth = $dbh->prepare("UPDATE slip_gaji SET nip=?, nama=?, jenis=?, golongan=?, tunjangan_jabatan=?, tunjangan_suami_istri=?, tunjangan_anak=?, tunjangan_beras=?, jkk=?, jkm=?, id_potongan_lainlain=?, tanggal_slip=?, total_gaji=?, total_tunjangan=?, total_potongan=? WHERE id=?");
-    $sth->execute([$nip, $nama, $jenis, $golongan, $tunjangan_jabatan, $tunjangan_suami_istri, $tunjangan_anak, $tunjangan_beras, $jkk, $jkm, $id_potongan_lainlain, $tanggal_slip, $total_gaji, $total_tunjangan, $total_potongan, $id]);
+    $sth = $dbh->prepare("UPDATE slip_gaji SET nip=?, nama=?, jenis=?, golongan=?, tunjangan_jabatan=?, tunjangan_suami_istri=?, tunjangan_anak=?, tunjangan_beras=?, jkk=?, jkm=?, bpjs=?, iwp_1_persen=?, iwp_8_persen=?, id_potongan_lainlain=?, tanggal_slip=?, total_gaji=?, total_tunjangan=?, total_potongan=? WHERE id=?");
+    $sth->execute([$nip, $nama, $jenis, $golongan, $tunjangan_jabatan, $tunjangan_suami_istri, $tunjangan_anak, $tunjangan_beras, $jkk, $jkm, $bpjs, $iwp1, $iwp8, $id_potongan_lainlain, $tanggal_slip, $total_gaji, $total_tunjangan, $total_potongan, $id]);
 
     // delete POTONGAN
     $sth = $dbh->prepare("DELETE FROM slip_gaji_potongan WHERE id_slip=?;");
