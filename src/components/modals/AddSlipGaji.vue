@@ -32,109 +32,135 @@
                 </select>
               </div>
             </div>
-            <div class="each-item" v-if="dataSlip.asn !== 'Pilih ASN' && dataSlip.jenis === 1">
-              <div style="display: flex; justify-content: space-between;">
-                <div class="form-group">
-                  <label for="masaKerja">Masa Kerja (tahun) :</label>
-                  <input type="number" class="form-control" v-model="dataSlip.masaKerja" id="masaKerja">
-                </div>
-                <div class="form-group">
-                  <label for="gajiPokok">Gaji Pokok :</label>
-                  <input type="text" class="form-control" disabled id="gajiPokok" :placeholder="dataSlip.gajiPokok">
-                </div>
-              </div>
-              <div class="form-group" v-if="dataSlip.asn.eselon !== ''">
-                <label for="tunjanganJabatan">Tunjangan Jabatan :</label>
-                <input type="text" class="form-control" disabled id="tunjanganJabatan" :placeholder="kalkulasiTunjanganJabatan">
-              </div>
-              <div v-if="parseInt(dataKeluarga.status_perkawinan) === 1 || parseInt(dataKeluarga.jumlah_anak) !== 0">
-                <label>Tunjangan Keluarga :</label>
+            <div v-if="dataSlip.asn !== 'Pilih ASN' && dataSlip.jenis === 1">
+              <div class="each-item">
                 <div style="display: flex; justify-content: space-between;">
-                  <div class="form-group" v-if="parseInt(dataKeluarga.status_perkawinan) === 1 && parseInt(dataKeluarga.is_greater_than) === 0">
-                    <label for="tunjanganSuamiIstri">{{ dataSlip.asn.JENIS_KELAMIN === 'M' ? 'Istri' : 'Suami' }} :</label>
-                    <input type="text" class="form-control" disabled id="tunjanganSuamiIstri" :placeholder="kalkulasiTunjanganSuamiIstri">
+                  <div class="form-group">
+                    <label for="masaKerja">Masa Kerja (tahun) :</label>
+                    <input type="number" class="form-control" v-model="dataSlip.masaKerja" id="masaKerja">
                   </div>
-                  <div class="form-group" v-if="parseInt(dataKeluarga.status_perkawinan) === 1 && parseInt(dataKeluarga.jumlah_anak) !== 0">
-                    <label for="tunjanganAnak">Anak :</label>
-                    <input type="text" class="form-control" disabled id="tunjanganAnak" :placeholder="kalkulasiTunjanganAnak">
+                  <div class="form-group">
+                    <label for="gajiPokok">Gaji Pokok :</label>
+                    <input type="text" class="form-control" disabled id="gajiPokok" :placeholder="dataSlip.gajiPokok">
+                  </div>
+                </div>
+                <div class="form-group" v-if="dataSlip.asn.eselon !== ''">
+                  <label for="tunjanganJabatan">Tunjangan Jabatan :</label>
+                  <input type="text" class="form-control" disabled id="tunjanganJabatan" :placeholder="kalkulasiTunjanganJabatan">
+                </div>
+                <div v-if="parseInt(dataKeluarga.status_perkawinan) === 1 || parseInt(dataKeluarga.jumlah_anak) !== 0">
+                  <label>Tunjangan Keluarga :</label>
+                  <div style="display: flex; justify-content: space-between;">
+                    <div class="form-group" v-if="parseInt(dataKeluarga.status_perkawinan) === 1 && parseInt(dataKeluarga.is_greater_than) === 0">
+                      <label for="tunjanganSuamiIstri">{{ dataSlip.asn.JENIS_KELAMIN === 'M' ? 'Istri' : 'Suami' }} :</label>
+                      <input type="text" class="form-control" disabled id="tunjanganSuamiIstri" :placeholder="kalkulasiTunjanganSuamiIstri">
+                    </div>
+                    <div class="form-group" v-if="parseInt(dataKeluarga.status_perkawinan) === 1 && parseInt(dataKeluarga.jumlah_anak) !== 0">
+                      <label for="tunjanganAnak">Anak :</label>
+                      <input type="text" class="form-control" disabled id="tunjanganAnak" :placeholder="kalkulasiTunjanganAnak">
+                    </div>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="form-group" style="max-width: 50%;">
+                    <label for="tunjanganBeras">Tunjangan Beras :</label>
+                    <input type="text" class="form-control" disabled id="tunjanganBeras" :placeholder="kalkulasiTunjanganBeras">
+                  </div>
+                  <div class="form-group" style="max-width: 50%;">
+                    <label for="tunjanganBPJS">Tunjangan BPJS :</label>
+                    <input type="text" class="form-control" disabled id="tunjanganBPJS" :placeholder="kalkulasiBPJS">
+                  </div>
+                </div>
+                <label>Tunjangan Jaminan :</label>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="form-group" style="max-width: 50%;">
+                    <label for="tunjanganJKK">Kecelakaan Kerja :</label>
+                    <input type="text" class="form-control" disabled id="tunjanganJKK" :placeholder="kalkulasiJKK">
+                  </div>
+                  <div class="form-group" style="max-width: 50%; align-self: flex-end;">
+                    <label for="tunjanganJKM">Kematian :</label>
+                    <input type="text" class="form-control" disabled id="tunjanganJKM" :placeholder="kalkulasiJKM">
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="tunjanganBeras">Tunjangan Beras :</label>
-                <input type="text" class="form-control" disabled id="tunjanganBeras" :placeholder="kalkulasiTunjanganBeras">
-              </div>
-              <label>Tunjangan Jaminan :</label>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="form-group" style="max-width: 50%;">
-                  <label for="tunjanganJKK">Kecelakaan Kerja :</label>
-                  <input type="text" class="form-control" disabled id="tunjanganJKK" :placeholder="kalkulasiJKK">
+              <div class="each-item-p">
+                <label>Tunjangan :</label>
+                <div class="form-group po" v-for="(item, index) in dataSlip.tunjangan" :key="index">
+                  <select class="form-control" v-model="item.tunjangan">
+                    <option disabled selected>Pilih Tunjangan</option>
+                    <option v-for="(item, index) in dataTunjangan" :key="index" :value="item">{{ item.nama }} - <span v-if="item.jenis === 'Rp'">Rp {{ item.tunjangan | convertRp }}</span><span v-if="item.jenis === '%'">{{ item.tunjangan }} %</span></option>
+                  </select>
+                  <img @click="delData(index, 'tunjangan')" src="./../../assets/remove_red.png" alt="" srcset="">
                 </div>
-                <div class="form-group" style="max-width: 50%; align-self: flex-end;">
-                  <label for="tunjanganJKM">Kematian :</label>
-                  <input type="text" class="form-control" disabled id="tunjanganJKM" :placeholder="kalkulasiJKM">
-                </div>
-              </div>
-            </div>
-            <div class="each-item-p">
-              <label>Tunjangan :</label>
-              <div class="form-group po" v-for="(item, index) in dataSlip.tunjangan" :key="index">
-                <select class="form-control" v-model="item.tunjangan">
-                  <option disabled selected>Pilih Tunjangan</option>
-                  <option v-for="(item, index) in dataTunjangan" :key="index" :value="item">{{ item.nama }} - <span v-if="item.jenis === 'Rp'">Rp {{ item.tunjangan | convertRp }}</span><span v-if="item.jenis === '%'">{{ item.tunjangan }} %</span></option>
-                </select>
-                <img @click="delData(index, 'tunjangan')" src="./../../assets/remove_red.png" alt="" srcset="">
-              </div>
-              <div class="btn btn-sm btn-success btn-block" style="font-size: 20px; padding: 2px; height: 18px; overflow: hidden;"><p style="margin-top: -8px;" @click="dataSlip.tunjangan.push({})">+</p></div>
-            </div>
-            <div class="each-item">
-              <div class="form-group">
-                <label for="totalTunjangan">Total Tunjangan :</label>
-                <input type="text" class="form-control" disabled id="totalTunjangan" :placeholder="kalkulasiTotalTunjangan">
-              </div>
-            </div>
-            <div class="each-item">
-              <label>Potongan Jaminan :</label>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="form-group" style="max-width: 50%;">
-                  <label for="potonganJKK">Kecelakaan Kerja :</label>
-                  <input type="text" class="form-control" disabled id="potonganJKK" :placeholder="kalkulasiJKK">
-                </div>
-                <div class="form-group" style="max-width: 50%; align-self: flex-end;">
-                  <label for="potonganJKM">Kematian :</label>
-                  <input type="text" class="form-control" disabled id="potonganJKM" :placeholder="kalkulasiJKM">
-                </div>
-              </div>
-            </div>
-            <div class="each-item-p">
-              <label>Potongan :</label>
-              <div class="form-group po" v-for="(item, index) in dataSlip.potongan" :key="index">
-                <select class="form-control" v-model="item.potongan">
-                  <option disabled selected>Pilih Potongan</option>
-                  <option v-for="(item, index) in dataPotongan" :key="index" :value="item">{{ item.nama }} - <span v-if="item.jenis === 'Rp'">Rp {{ item.potongan | convertRp }}</span><span v-if="item.jenis === '%'">{{ item.potongan }} %</span></option>
-                </select>
-                <img @click="delData(index, 'potongan')" src="./../../assets/remove_red.png" alt="" srcset="">
-              </div>
-              <div class="btn btn-sm btn-success btn-block" style="font-size: 20px; padding: 2px; height: 18px; overflow: hidden;"><p style="margin-top: -8px;" @click="dataSlip.potongan.push({})">+</p></div>
-            </div>
-            <div class="each-item">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" v-model="dataSlip.isPotonganLainLain" id="isPotonganLainLain">
-                <label class="form-check-label" for="isPotonganLainLain">Potongan lain-lain</label>
-              </div>
-              <div class="form-group" v-if="dataSlip.isPotonganLainLain">
-                <input type="number" class="form-control" v-model="dataSlip.potonganLainLain" placeholder="Potongan Lain-lain">
+                <div class="btn btn-sm btn-success btn-block" style="font-size: 20px; padding: 2px; height: 18px; overflow: hidden;"><p style="margin-top: -8px;" @click="dataSlip.tunjangan.push({})">+</p></div>
               </div>
               <div class="each-item">
                 <div class="form-group">
-                  <label for="totalPotongan">Total Potongan :</label>
-                  <input type="text" class="form-control" disabled id="totalPotongan" :placeholder="kalkulasiTotalPotongan">
+                  <label for="totalTunjangan">Total Tunjangan :</label>
+                  <input type="text" class="form-control" disabled id="totalTunjangan" :placeholder="kalkulasiTotalTunjangan">
+                </div>
+              </div>
+              <div style="margin-top: 24px; margin-bottom: 16px; overflow: hidden; text-align: center;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+              <div class="each-item">
+                <div class="form-group">
+                  <label for="potonganBPJS">Potongan BPJS :</label>
+                  <input type="text" class="form-control" disabled id="potonganBPJS" :placeholder="kalkulasiBPJS">
+                </div>
+              </div>
+              <label>Potongan IWP :</label>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="form-group" style="max-width: 50%;">
+                  <label for="IWP1Persen">1 % :</label>
+                  <input type="text" class="form-control" disabled id="IWP1Persen" :placeholder="kalkulasiIWP1Persen">
+                </div>
+                <div class="form-group" style="max-width: 50%; align-self: flex-end;">
+                  <label for="IWP8Persen">8 % :</label>
+                  <input type="text" class="form-control" disabled id="IWP8Persen" :placeholder="kalkulasiIWP8Persen">
                 </div>
               </div>
               <div class="each-item">
-                <div class="form-group">
-                  <label for="penerimaan">Penerimaan :</label>
-                  <input type="text" class="form-control" disabled id="penerimaan" :placeholder="dataSlip.total">
+                <label>Potongan Jaminan :</label>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="form-group" style="max-width: 50%;">
+                    <label for="potonganJKK">Kecelakaan Kerja :</label>
+                    <input type="text" class="form-control" disabled id="potonganJKK" :placeholder="kalkulasiJKK">
+                  </div>
+                  <div class="form-group" style="max-width: 50%; align-self: flex-end;">
+                    <label for="potonganJKM">Kematian :</label>
+                    <input type="text" class="form-control" disabled id="potonganJKM" :placeholder="kalkulasiJKM">
+                  </div>
+                </div>
+              </div>
+              <div class="each-item-p">
+                <label>Potongan :</label>
+                <div class="form-group po" v-for="(item, index) in dataSlip.potongan" :key="index">
+                  <select class="form-control" v-model="item.potongan">
+                    <option disabled selected>Pilih Potongan</option>
+                    <option v-for="(item, index) in dataPotongan" :key="index" :value="item">{{ item.nama }} - <span v-if="item.jenis === 'Rp'">Rp {{ item.potongan | convertRp }}</span><span v-if="item.jenis === '%'">{{ item.potongan }} %</span></option>
+                  </select>
+                  <img @click="delData(index, 'potongan')" src="./../../assets/remove_red.png" alt="" srcset="">
+                </div>
+                <div class="btn btn-sm btn-success btn-block" style="font-size: 20px; padding: 2px; height: 18px; overflow: hidden;"><p style="margin-top: -8px;" @click="dataSlip.potongan.push({})">+</p></div>
+              </div>
+              <div class="each-item">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" v-model="dataSlip.isPotonganLainLain" id="isPotonganLainLain">
+                  <label class="form-check-label" for="isPotonganLainLain">Potongan lain-lain</label>
+                </div>
+                <div class="form-group" v-if="dataSlip.isPotonganLainLain">
+                  <input type="number" class="form-control" v-model="dataSlip.potonganLainLain" placeholder="Potongan Lain-lain">
+                </div>
+                <div class="each-item">
+                  <div class="form-group">
+                    <label for="totalPotongan">Total Potongan :</label>
+                    <input type="text" class="form-control" disabled id="totalPotongan" :placeholder="kalkulasiTotalPotongan">
+                  </div>
+                </div>
+                <div class="each-item">
+                  <div class="form-group">
+                    <label for="penerimaan">Penerimaan :</label>
+                    <input type="text" class="form-control" disabled id="penerimaan" :placeholder="dataSlip.total">
+                  </div>
                 </div>
               </div>
             </div>
@@ -230,7 +256,7 @@ export default {
           this.tempPotonganLain = val
         }
       }
-      this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+      this.dataSlip.total = (this.dataSlip.gajiPokok + this.kalkulasiTotalTunjangan) - this.kalkulasiTotalPotongan
     },
     'dataSlip.asn' (val) {
       if (val !== 'Pilih ASN') {
@@ -292,8 +318,6 @@ export default {
           return 5500000
         } else if (eselon === '12') {
           return 4375000
-        } else if (eselon === '12') {
-          return 4375000
         } else if (eselon === '21') {
           return 3250000
         } else if (eselon === '22') {
@@ -312,6 +336,45 @@ export default {
       }
       return 0
     },
+    kalkulasiTunjanganFungsionalTertentu () {
+      let total = 0
+      let jabatan = this.dataSlip.asn.nama_jabatan.toLowerCase()
+      let jenjang = ''
+
+      // ANALIS KEPEGAWAIAN --> BERDASARKAN Peraturan Presiden (PERPRES) Nomor 17 Tahun 2013
+      if (jabatan.includes('analis kepegawaian')) {
+        jenjang = jabatan.split('analis kepegawaian')[1]
+
+        if (jenjang === 'pelaksana') {
+          total += 330000
+        } else if (jenjang === 'pelaksana lanjutan') {
+          total += 420000
+        } else if (jenjang === 'penyelia') {
+          total += 600000
+        } else if (jenjang === 'pertama') {
+          total += 480000
+        } else if (jenjang === 'muda') {
+          total += 840000
+        } else if (jenjang === 'madya') {
+          total += 1080000
+        }
+      }
+
+      return total
+    },
+    kalkulasiTunjanganFungsionalUmum () {
+      let golongan = this.dataSlip.asn.GOL_NAMA.split('/')[0]
+      if (golongan === 'I') {
+        return 175000
+      } else if (golongan === 'II') {
+        return 180000
+      } else if (golongan === 'III') {
+        return 185000
+      } else if (golongan === 'IV') {
+        return 190000
+      }
+      return 0
+    },
     kalkulasiTunjanganSuamiIstri () {
       if (parseInt(this.dataKeluarga.status_perkawinan) === 1 && parseInt(this.dataKeluarga.is_greater_than) === 0) {
         return this.dataSlip.gajiPokok * 10 / 100
@@ -319,14 +382,14 @@ export default {
       return 0
     },
     kalkulasiTunjanganAnak () {
-      return (this.dataSlip.gajiPokok * 2 / 100) * this.dataKeluarga.jumlah_anak
+      return (this.dataSlip.gajiPokok * 2 / 100) * parseInt(this.dataKeluarga.jumlah_anak)
     },
     kalkulasiTunjanganBeras () {
       let temp = 72420
       if (parseInt(this.dataKeluarga.status_perkawinan) === 1 && parseInt(this.dataKeluarga.is_greater_than) === 0) {
         temp += 72420
       }
-      temp += (72420 * this.dataKeluarga.jumlah_anak)
+      temp += (72420 * parseInt(this.dataKeluarga.jumlah_anak))
       return temp
     },
     kalkulasiJKK () {
@@ -334,6 +397,39 @@ export default {
     },
     kalkulasiJKM () {
       return Math.round((this.dataSlip.gajiPokok * 0.72) / 100)
+    },
+    kalkulasiBPJS () {
+      let total = 0
+      total += this.dataSlip.gajiPokok + this.kalkulasiTunjanganSuamiIstri + this.kalkulasiTunjanganAnak
+      if (this.dataSlip.asn.eselon !== '') {
+        total += this.kalkulasiTunjanganJabatan
+      } else {
+        if (this.dataSlip.asn.jenis_jabatan === 'jft') {
+          total += this.kalkulasiTunjanganFungsionalTertentu
+        } else {
+          total += this.kalkulasiTunjanganFungsionalUmum
+        }
+      }
+      return Math.round((total * 4) / 100)
+    },
+    kalkulasiIWP8Persen () {
+      let total = 0
+      total += this.dataSlip.gajiPokok + this.kalkulasiTunjanganSuamiIstri + this.kalkulasiTunjanganAnak
+      return Math.round((total * 8) / 100)
+    },
+    kalkulasiIWP1Persen () {
+      let total = 0
+      total += this.dataSlip.gajiPokok + this.kalkulasiTunjanganSuamiIstri + this.kalkulasiTunjanganAnak
+      if (this.dataSlip.asn.eselon !== '') {
+        total += this.kalkulasiTunjanganJabatan
+      } else {
+        if (this.dataSlip.asn.jenis_jabatan === 'jft') {
+          total += this.kalkulasiTunjanganFungsionalTertentu
+        } else {
+          total += this.kalkulasiTunjanganFungsionalUmum
+        }
+      }
+      return Math.round((total * 1) / 100)
     }
   },
   methods: {
@@ -367,8 +463,8 @@ export default {
           }
           this.dataSlip.gajiPokok = 0
           this.dataSlip.idGolongan = res.data[0].id
-          this.dataSlip.gajiPokok = res.data[0].gaji
-          this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+          this.dataSlip.gajiPokok = parseFloat(res.data[0].gaji)
+          this.dataSlip.total = (this.dataSlip.gajiPokok + this.kalkulasiTotalTunjangan) - this.kalkulasiTotalPotongan
           this.kalkulasiTotTunjangan(this.dataSlip.tunjangan)
           this.kalkulasiTotPotongan(this.dataSlip.potongan)
         })
@@ -390,13 +486,13 @@ export default {
           }
         })
       }
-      this.kalkulasiTotalPotongan = total + parseInt(this.kalkulasiJKK) + parseInt(this.kalkulasiJKM)
+      this.kalkulasiTotalPotongan = total + this.kalkulasiJKK + this.kalkulasiJKM + this.kalkulasiBPJS + this.kalkulasiIWP1Persen + this.kalkulasiIWP8Persen
       if (this.dataSlip.isPotonganLainLain) {
         if (!isNaN(parseInt(this.dataSlip.potonganLainLain))) {
-          this.kalkulasiTotalPotongan += parseInt(this.dataSlip.potonganLainLain)
+          this.kalkulasiTotalPotongan += parseFloat(this.dataSlip.potonganLainLain)
         }
       }
-      this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+      this.dataSlip.total = (this.dataSlip.gajiPokok + this.kalkulasiTotalTunjangan) - this.kalkulasiTotalPotongan
     },
     kalkulasiTotTunjangan (totalTunjangan) {
       let total = 0
@@ -414,8 +510,8 @@ export default {
           }
         })
       }
-      this.kalkulasiTotalTunjangan = total + parseFloat(this.kalkulasiTunjanganJabatan) + parseFloat(this.kalkulasiTunjanganSuamiIstri) + parseFloat(this.kalkulasiTunjanganAnak) + parseFloat(this.kalkulasiTunjanganBeras) + parseInt(this.kalkulasiJKK) + parseInt(this.kalkulasiJKM)
-      this.dataSlip.total = (parseFloat(this.dataSlip.gajiPokok) + parseFloat(this.kalkulasiTotalTunjangan)) - parseFloat(this.kalkulasiTotalPotongan)
+      this.kalkulasiTotalTunjangan = total + this.kalkulasiTunjanganJabatan + this.kalkulasiTunjanganSuamiIstri + this.kalkulasiTunjanganAnak + this.kalkulasiTunjanganBeras + this.kalkulasiJKK + this.kalkulasiJKM + this.kalkulasiBPJS
+      this.dataSlip.total = (this.dataSlip.gajiPokok + this.kalkulasiTotalTunjangan) - this.kalkulasiTotalPotongan
     },
     delData (index, mode) {
       if (mode === 'tunjangan') {
@@ -511,6 +607,9 @@ export default {
           tunjanganBeras: this.kalkulasiTunjanganBeras,
           jkk: this.kalkulasiJKK,
           jkm: this.kalkulasiJKM,
+          bpjs: this.kalkulasiBPJS,
+          iwp1: this.kalkulasiIWP1Persen,
+          iwp8: this.kalkulasiIWP8Persen,
           idPotongan: dataSlip.potongan,
           idPotonganLainLain: dataSlip.potonganLainLain,
           idTunjangan: dataSlip.tunjangan,
