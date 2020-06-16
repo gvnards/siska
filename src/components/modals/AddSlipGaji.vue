@@ -330,10 +330,10 @@ export default {
       return temp
     },
     kalkulasiJKK () {
-      return Math.ceil((this.dataSlip.gajiPokok * 0.24) / 100)
+      return Math.round((this.dataSlip.gajiPokok * 0.24) / 100)
     },
     kalkulasiJKM () {
-      return Math.ceil((this.dataSlip.gajiPokok * 0.72) / 100)
+      return Math.round((this.dataSlip.gajiPokok * 0.72) / 100)
     }
   },
   methods: {
