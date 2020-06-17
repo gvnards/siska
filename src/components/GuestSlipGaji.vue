@@ -67,7 +67,19 @@ export default {
   methods: {
     toUrl () {
       let tempTanggal = new Date(this.userData.tanggal)
-      window.open(`${this.$store.state.BASED_URL}siska_slip/?onGet=GetSlipGaji&bulan=${tempTanggal.getMonth() + 1 < 10 ? '0' + (tempTanggal.getMonth() + 1) : tempTanggal.getMonth() + 1}&tahun=${tempTanggal.getFullYear()}&nips=${this.userData.asn.nip}`)
+      axios({
+        url: `${this.$store.state.BASED_URL}siska_server/`,
+        method: 'GET',
+        params: {
+          nocache: new Date().getTime(),
+          onGet: 'GetSlipGaji',
+          bulan: tempTanggal.getMonth() + 1 < 10 ? '0' + (tempTanggal.getMonth() + 1) : tempTanggal.getMonth() + 1,
+          tahun: tempTanggal.getFullYear(),
+          nips: this.userData.asn.nip
+        }
+      }).then(res => {
+        window.open(`${this.$store.state.BASED_URL}siska_slip/?idSlip=${res.data[0].id}`)
+      })
     },
     getJenisSlip () {
       axios({
