@@ -344,17 +344,17 @@ export default {
       if (jabatan.includes('analis kepegawaian')) {
         jenjang = jabatan.split('analis kepegawaian')[1]
 
-        if (jenjang === 'pelaksana') {
-          total += 330000
-        } else if (jenjang === 'pelaksana lanjutan') {
+        if (jenjang.includes('pelaksana lanjutan')) {
           total += 420000
-        } else if (jenjang === 'penyelia') {
+        } else if (jenjang.includes('pelaksana')) {
+          total += 330000
+        } else if (jenjang.includes('penyelia')) {
           total += 600000
-        } else if (jenjang === 'pertama') {
+        } else if (jenjang.includes('pertama')) {
           total += 480000
-        } else if (jenjang === 'muda') {
+        } else if (jenjang.includes('muda')) {
           total += 840000
-        } else if (jenjang === 'madya') {
+        } else if (jenjang.includes('madya')) {
           total += 1080000
         }
       }
