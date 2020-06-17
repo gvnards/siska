@@ -56,7 +56,7 @@
                     <label for="tunjanganSuamiIstri">{{ dataSlip.asn.JENIS_KELAMIN === 'M' ? 'Istri' : 'Suami' }} :</label>
                     <input type="text" class="form-control" disabled id="tunjanganSuamiIstri" :placeholder="kalkulasiTunjanganSuamiIstri">
                   </div>
-                  <div class="form-group" v-if="parseInt(dataKeluarga.status_perkawinan) === 1 && parseInt(dataKeluarga.jumlah_anak) !== 0">
+                  <div class="form-group" v-if="parseInt(dataKeluarga.jumlah_anak) !== 0">
                     <label for="tunjanganAnak">Anak :</label>
                     <input type="text" class="form-control" disabled id="tunjanganAnak" :placeholder="kalkulasiTunjanganAnak">
                   </div>
