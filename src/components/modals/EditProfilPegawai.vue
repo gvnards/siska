@@ -13,7 +13,7 @@
           <div class="mTabs">
             <div class="tabs-head-wrapper">
               <div class="custom-tabs">
-                <div class="mTabs-item text-center" :class="item === tabs.active ? 'active' : ''" v-for="(item, index) in tabs.list" :key="index" @click="dataEdit.JENIS_KAWIN_NAMA.toLowerCase() !== 'menikah' ? tabs.active = tabs.list[0] : tabs.active = item" :style="dataEdit.JENIS_KAWIN_NAMA.toLowerCase() !== 'menikah' && item.toLowerCase().includes('kawin') ? 'cursor: not-allowed !important;' : ''">
+                <div class="mTabs-item text-center" :class="item === tabs.active ? 'active' : ''" v-for="(item, index) in tabs.list" :key="index" @click="dataEdit.JENIS_KAWIN_NAMA.toLowerCase() === 'belum kawin' ? tabs.active = tabs.list[0] : tabs.active = item" :style="dataEdit.JENIS_KAWIN_NAMA.toLowerCase() === 'belum kawin' && item.toLowerCase().includes('kawin') ? 'cursor: not-allowed !important;' : ''">
                   {{ item }}
                 </div>
               </div>
