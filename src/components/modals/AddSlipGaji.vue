@@ -44,9 +44,11 @@
                     <input type="text" class="form-control" disabled id="gajiPokok" :placeholder="dataSlip.gajiPokok">
                   </div>
                 </div>
-                <div class="form-group" v-if="dataSlip.asn.eselon !== ''">
+                <div class="form-group">
                   <label for="tunjanganJabatan">Tunjangan Jabatan :</label>
-                  <input type="text" class="form-control" disabled id="tunjanganJabatan" :placeholder="kalkulasiTunjanganJabatan">
+                  <input v-if="dataSlip.asn.eselon !== ''" type="text" class="form-control" disabled id="tunjanganJabatan" :placeholder="kalkulasiTunjanganJabatan">
+                  <input v-else-if="dataSlip.asn.jenis_jabatan === 'jft'" type="text" class="form-control" disabled id="tunjanganJabatan" :placeholder="kalkulasiTunjanganFungsionalTertentu">
+                  <input v-else-if="dataSlip.asn.jenis_jabatan === 'jfu'" type="text" class="form-control" disabled id="tunjanganJabatan" :placeholder="kalkulasiTunjanganFungsionalUmum">
                 </div>
                 <div v-if="parseInt(dataKeluarga.status_perkawinan) === 1 || parseInt(dataKeluarga.jumlah_anak) !== 0">
                   <label>Tunjangan Keluarga :</label>
@@ -510,7 +512,17 @@ export default {
           }
         })
       }
-      this.kalkulasiTotalTunjangan = total + this.kalkulasiTunjanganJabatan + this.kalkulasiTunjanganSuamiIstri + this.kalkulasiTunjanganAnak + this.kalkulasiTunjanganBeras + this.kalkulasiJKK + this.kalkulasiJKM + this.kalkulasiBPJS
+      let tempTunjanganJabatan = 0
+      if (this.dataSlip.asn.eselon !== '') {
+        tempTunjanganJabatan = this.kalkulasiTunjanganJabatan
+      } else {
+        if (this.dataSlip.asn.jenis_jabatan === 'jft') {
+          tempTunjanganJabatan = this.kalkulasiTunjanganFungsionalTertentu
+        } else {
+          tempTunjanganJabatan = this.kalkulasiTunjanganFungsionalUmum
+        }
+      }
+      this.kalkulasiTotalTunjangan = total + tempTunjanganJabatan + this.kalkulasiTunjanganSuamiIstri + this.kalkulasiTunjanganAnak + this.kalkulasiTunjanganBeras + this.kalkulasiJKK + this.kalkulasiJKM + this.kalkulasiBPJS
       this.dataSlip.total = (this.dataSlip.gajiPokok + this.kalkulasiTotalTunjangan) - this.kalkulasiTotalPotongan
     },
     delData (index, mode) {
