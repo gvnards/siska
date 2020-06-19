@@ -10,7 +10,7 @@ class UpdateProfil extends Conn {
     $dbh = $this->connect();
 
     $sth = $dbh->prepare("UPDATE profil_pegawai SET status_perkawinan=?, is_pasangan_pns=?, is_greater_than=?, jumlah_anak=? WHERE id=?");
-    $sth->execute([$status_perkawinan, $is_pasangan_pns, $is_greater_than, $jumlah_anak, $id]);
+    $sth->execute([intval($status_perkawinan), intval($is_pasangan_pns), intval($is_greater_than), intval($jumlah_anak), intval($id)]);
 
     return json_encode([
       "callback" => $sth->rowCount()

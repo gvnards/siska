@@ -4,6 +4,7 @@ class CreateSlipGaji extends Conn {
     $nip = isset($_POST['nip']) ? $_POST['nip'] : json_decode(file_get_contents('php://input'))->nip;
     $nama = isset($_POST['nama']) ? $_POST['nama'] : json_decode(file_get_contents('php://input'))->nama;
     $jenis = isset($_POST['jenis']) ? $_POST['jenis'] : json_decode(file_get_contents('php://input'))->jenis;
+    $isGolonganAuto = isset($_POST['isGolonganAuto']) ? $_POST['isGolonganAuto'] : json_decode(file_get_contents('php://input'))->isGolonganAuto;
     $golongan = isset($_POST['golongan']) ? $_POST['golongan'] : json_decode(file_get_contents('php://input'))->golongan;
     $tunjangan_jabatan = isset($_POST['tunjanganJabatan']) ? $_POST['tunjanganJabatan'] : json_decode(file_get_contents('php://input'))->tunjanganJabatan;
     $tunjangan_suami_istri = isset($_POST['tunjanganSuamiIstri']) ? $_POST['tunjanganSuamiIstri'] : json_decode(file_get_contents('php://input'))->tunjanganSuamiIstri;
@@ -21,6 +22,7 @@ class CreateSlipGaji extends Conn {
     $total_gaji = isset($_POST['totalGaji']) ? $_POST['totalGaji'] : json_decode(file_get_contents('php://input'))->totalGaji;
     $total_tunjangan = isset($_POST['totalTunjangan']) ? $_POST['totalTunjangan'] : json_decode(file_get_contents('php://input'))->totalTunjangan;
     $total_potongan = isset($_POST['totalPotongan']) ? $_POST['totalPotongan'] : json_decode(file_get_contents('php://input'))->totalPotongan;
+    $catatan = isset($_POST['catatan']) ? $_POST['catatan'] : json_decode(file_get_contents('php://input'))->catatan;
 
     $dbh = $this->connect();
 
@@ -32,8 +34,8 @@ class CreateSlipGaji extends Conn {
     }
 
     // insert SLIP GAJI
-    $sth = $dbh->prepare("INSERT INTO slip_gaji(nip, nama, jenis, golongan, tunjangan_jabatan, tunjangan_suami_istri, tunjangan_anak, tunjangan_beras, jkk, jkm, bpjs, iwp_1_persen, iwp_8_persen, id_potongan_lainlain, tanggal_slip, total_gaji, total_tunjangan, total_potongan) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $sth->execute([$nip, $nama, $jenis, $golongan, $tunjangan_jabatan, $tunjangan_suami_istri, $tunjangan_anak, $tunjangan_beras, $jkk, $jkm, $bpjs, $iwp1, $iwp8, $id_potongan_lainlain, $tanggal_slip, $total_gaji, $total_tunjangan, $total_potongan]);
+    $sth = $dbh->prepare("INSERT INTO slip_gaji(nip, nama, jenis, isGolonganAuto, golongan, tunjangan_jabatan, tunjangan_suami_istri, tunjangan_anak, tunjangan_beras, jkk, jkm, bpjs, iwp_1_persen, iwp_8_persen, id_potongan_lainlain, tanggal_slip, total_gaji, total_tunjangan, total_potongan, catatan) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $sth->execute([$nip, $nama, $jenis, intval($isGolonganAuto), $golongan, $tunjangan_jabatan, $tunjangan_suami_istri, $tunjangan_anak, $tunjangan_beras, $jkk, $jkm, $bpjs, $iwp1, $iwp8, $id_potongan_lainlain, $tanggal_slip, $total_gaji, $total_tunjangan, $total_potongan, $catatan]);
     $id_slip_gaji = $dbh->lastInsertId();
 
     foreach ($id_potongan as $key => $value) {
