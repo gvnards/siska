@@ -722,6 +722,16 @@ export default {
       })
     },
     addData () {
+      let tempTunjangan = 0
+      if (this.dataSlip.asn.eselon !== '') {
+        tempTunjangan += this.kalkulasiTunjanganJabatan
+      } else {
+        if (this.dataSlip.asn.jenis_jabatan === 'jft') {
+          tempTunjangan += this.kalkulasiTunjanganFungsionalTertentu
+        } else {
+          tempTunjangan += this.kalkulasiTunjanganFungsionalUmum
+        }
+      }
       let dataSlip = {...this.dataSlip}
       dataSlip.asn = {
         nip: dataSlip.asn.nip,
@@ -753,7 +763,7 @@ export default {
           jenis: dataSlip.jenis,
           isGolonganAuto: this.isGolonganAuto,
           golongan: dataSlip.idGolongan,
-          tunjanganJabatan: this.kalkulasiTunjanganJabatan,
+          tunjanganJabatan: tempTunjangan,
           tunjanganSuamiIstri: this.kalkulasiTunjanganSuamiIstri,
           tunjanganAnak: this.kalkulasiTunjanganAnak,
           tunjanganBeras: this.kalkulasiTunjanganBeras,
