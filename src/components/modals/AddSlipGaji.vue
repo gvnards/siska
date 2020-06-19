@@ -39,7 +39,36 @@
                     <label for="masaKerja">Masa Kerja (tahun) :</label>
                     <input type="number" class="form-control" v-model="dataSlip.masaKerja" id="masaKerja">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="width: 50%;">
+                    <label>Perhitungan Gaji Pokok :</label>
+                    <div style="display: flex; margin-top: 6px;">
+                      <div class="custom-control custom-radio" style="margin-right: 16px;">
+                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" v-model="isGolonganAuto" :value="true">
+                        <label class="custom-control-label" for="customRadio1" style="
+          vertical-align: middle;">Otomatis</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" v-model="isGolonganAuto" :value="false">
+                        <label class="custom-control-label" for="customRadio2" style="
+          vertical-align: middle;">Manual</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                  <div class="form-group" style="width: 40%; margin-right: 12px;" v-if="!isGolonganAuto">
+                    <label for="golongan_">Pilih Golongan :</label>
+                    <select class="form-control" id="golongan_" v-model="golonganManual.angka">
+                      <option v-for="(item, index) in golonganManual.data.golongan" :key="index">{{ item }}</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="width: 40%; margin-right: 12px;" v-if="!isGolonganAuto">
+                    <label for="tingkatan_">Pilih Tingkatan :</label>
+                    <select class="form-control" id="tingkatan_" v-model="golonganManual.abjad">
+                      <option v-for="(item, index) in golonganManual.data.tingkatan" :key="index">{{ item }}</option>
+                    </select>
+                  </div>
+                  <div class="form-group" :style="isGolonganAuto ? 'width: 100%;' : ''">
                     <label for="gajiPokok">Gaji Pokok :</label>
                     <input type="text" class="form-control" disabled id="gajiPokok" :placeholder="dataSlip.gajiPokok">
                   </div>
@@ -164,6 +193,13 @@
                     <input type="text" class="form-control" disabled id="penerimaan" :placeholder="dataSlip.total">
                   </div>
                 </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" v-model="isCatatan" id="isCatatan">
+                  <label class="form-check-label" for="isCatatan">Catatan</label>
+                </div>
+                <div class="form-group" v-if="isCatatan">
+                  <textarea class="form-control" id="catatan" rows="3" v-model="dataSlip.catatan"></textarea>
+                </div>
               </div>
             </div>
           </div>
@@ -279,10 +315,42 @@ export default {
       handler (val) {
         this.kalkulasiTotTunjangan(val)
       }
+    },
+    isCatatan (val) {
+      if (val) {
+        this.dataSlip.catatan = ''
+      }
+    },
+    isGolonganAuto (val) {
+      if (val) {
+        this.golonganManual.angka = ''
+        this.golonganManual.abjad = ''
+      }
+      this.kalkulasiGajiPokok()
+    },
+    'golonganManual.angka' () {
+      if (!this.isGolonganAuto) {
+        this.kalkulasiGajiPokok()
+      }
+    },
+    'golonganManual.abjad' () {
+      if (!this.isGolonganAuto) {
+        this.kalkulasiGajiPokok()
+      }
     }
   },
   data () {
     return {
+      isGolonganAuto: true,
+      isCatatan: false,
+      golonganManual: {
+        angka: '',
+        abjad: '',
+        data: {
+          golongan: ['I', 'II', 'III', 'IV'],
+          tingkatan: ['a', 'b', 'c', 'd', 'e']
+        }
+      },
       kalkulasiTotalPotongan: 0,
       kalkulasiTotalTunjangan: 0,
       dataTunjangan: [],
@@ -306,7 +374,8 @@ export default {
         isPotonganLainLain: false,
         potonganLainLain: 0,
         totalPotongan: 0,
-        total: 0
+        total: 0,
+        catatan: ''
       },
       tempPotonganLain: 0,
       dataKeluarga: Object
@@ -449,6 +518,10 @@ export default {
       })
     },
     kalkulasiGajiPokok () {
+      let golongan = this.dataSlip.asn.GOL_NAMA
+      if (!this.isGolonganAuto) {
+        golongan = `${this.golonganManual.angka}/${this.golonganManual.abjad}`
+      }
       if (this.dataSlip.jenis === 1 && this.dataSlip.asn !== 'Pilih ASN') {
         axios({
           url: `${this.$store.state.BASED_URL}siska_server/index.php`,
@@ -456,7 +529,7 @@ export default {
           params: {
             nocache: new Date().getTime(),
             onGet: 'GetGaji',
-            golongan: this.dataSlip.asn.GOL_NAMA,
+            golongan: golongan,
             masaKerja: this.dataSlip.masaKerja
           }
         }).then(res => {
@@ -543,8 +616,11 @@ export default {
         potongan: [],
         isPotonganLainLain: false,
         potonganLainLain: 0,
-        total: 0
+        total: 0,
+        catatan: ''
       }
+      this.isGolonganAuto = true
+      this.isCatatan = false
     },
     getTunjangan () {
       axios({
@@ -583,6 +659,16 @@ export default {
       })
     },
     addData () {
+      let tempTunjangan = 0
+      if (this.dataSlip.asn.eselon !== '') {
+        tempTunjangan += this.kalkulasiTunjanganJabatan
+      } else {
+        if (this.dataSlip.asn.jenis_jabatan === 'jft') {
+          tempTunjangan += this.kalkulasiTunjanganFungsionalTertentu
+        } else {
+          tempTunjangan += this.kalkulasiTunjanganFungsionalUmum
+        }
+      }
       let dataSlip = {...this.dataSlip}
       dataSlip.asn = {
         nip: dataSlip.asn.nip,
@@ -612,8 +698,9 @@ export default {
           nip: dataSlip.asn.nip,
           nama: dataSlip.asn.nama,
           jenis: dataSlip.jenis,
+          isGolonganAuto: this.isGolonganAuto,
           golongan: dataSlip.idGolongan,
-          tunjanganJabatan: this.kalkulasiTunjanganJabatan,
+          tunjanganJabatan: tempTunjangan,
           tunjanganSuamiIstri: this.kalkulasiTunjanganSuamiIstri,
           tunjanganAnak: this.kalkulasiTunjanganAnak,
           tunjanganBeras: this.kalkulasiTunjanganBeras,
@@ -628,7 +715,8 @@ export default {
           tanggalSlip: dataSlip.tanggal,
           totalGaji: dataSlip.total,
           totalTunjangan: this.kalkulasiTotalTunjangan,
-          totalPotongan: this.kalkulasiTotalPotongan
+          totalPotongan: this.kalkulasiTotalPotongan,
+          catatan: dataSlip.catatan
         }
       }).then(res => {
         $('#closeModalAddSlipGaji').trigger('click')
