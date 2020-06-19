@@ -35,7 +35,7 @@ class UpdateSlipGaji extends Conn {
     }
 
     // update SLIP GAJI
-    $sth = $dbh->prepare("UPDATE slip_gaji SET nip=?, nama=?, jenis=?, isGolonganAuto=?, golongan=?, tunjangan_jabatan=?, tunjangan_suami_istri=?, tunjangan_anak=?, tunjangan_beras=?, jkk=?, jkm=?, bpjs=?, iwp_1_persen=?, iwp_8_persen=?, id_potongan_lainlain=?, tanggal_slip=?, total_gaji=?, total_tunjangan=?, total_potongan=? WHERE id=?");
+    $sth = $dbh->prepare("UPDATE slip_gaji SET nip=?, nama=?, jenis=?, isGolonganAuto=?, golongan=?, tunjangan_jabatan=?, tunjangan_suami_istri=?, tunjangan_anak=?, tunjangan_beras=?, jkk=?, jkm=?, bpjs=?, iwp_1_persen=?, iwp_8_persen=?, id_potongan_lainlain=?, tanggal_slip=?, total_gaji=?, total_tunjangan=?, total_potongan=?, catatan=? WHERE id=?");
     $sth->execute([$nip, $nama, $jenis, intval($isGolonganAuto), $golongan, $tunjangan_jabatan, $tunjangan_suami_istri, $tunjangan_anak, $tunjangan_beras, $jkk, $jkm, $bpjs, $iwp1, $iwp8, $id_potongan_lainlain, $tanggal_slip, $total_gaji, $total_tunjangan, $total_potongan, $catatan, $id]);
 
     // delete POTONGAN
