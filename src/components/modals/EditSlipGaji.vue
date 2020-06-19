@@ -192,6 +192,13 @@
                   <input type="text" class="form-control" disabled id="penerimaan" :placeholder="dataSlip.total">
                 </div>
               </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" v-model="isCatatan" id="isCatatan">
+                <label class="form-check-label" for="isCatatan">Catatan</label>
+              </div>
+              <div class="form-group" v-if="isCatatan">
+                <textarea class="form-control" id="catatan" rows="3" v-model="dataSlip.catatan"></textarea>
+              </div>
             </div>
           </div>
         </div>
@@ -309,7 +316,7 @@ export default {
       }
     },
     isCatatan (val) {
-      if (val) {
+      if (!val) {
         this.dataSlip.catatan = ''
       }
     },
@@ -744,6 +751,7 @@ export default {
           nip: dataSlip.asn.nip,
           nama: dataSlip.asn.nama,
           jenis: dataSlip.jenis,
+          isGolonganAuto: this.isGolonganAuto,
           golongan: dataSlip.idGolongan,
           tunjanganJabatan: this.kalkulasiTunjanganJabatan,
           tunjanganSuamiIstri: this.kalkulasiTunjanganSuamiIstri,
@@ -760,7 +768,8 @@ export default {
           tanggalSlip: dataSlip.tanggal,
           totalGaji: dataSlip.total,
           totalTunjangan: this.kalkulasiTotalTunjangan,
-          totalPotongan: this.kalkulasiTotalPotongan
+          totalPotongan: this.kalkulasiTotalPotongan,
+          catatan: dataSlip.catatan
         }
       }).then(res => {
         $('#closeModalEditSlipGaji').trigger('click')
